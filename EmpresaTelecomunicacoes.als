@@ -1,6 +1,8 @@
 module EmpresaTelecomunicacoes
 
--- ASSINATURAS
+----------------------------------------------------------
+--			ASSINATURAS			--
+----------------------------------------------------------
 
 abstract sig Plano {
 	servicos : set Servico
@@ -18,7 +20,7 @@ one sig Internet extends Servico {
 one sig Telefone extends Servico {
 	planosDeTelefone : set PlanoDeTelefone
 }
-some sig TV extends Servico {
+one sig TV extends Servico {
 	planosDeTV : set PlanoDeTV
 }
 
@@ -42,7 +44,9 @@ one sig Documentarios extends PlanoDeTV {}
 one sig Series extends PlanoDeTV {}
 one sig ProgramaDeTV extends PlanoDeTV {}
 
--- FATOS 
+------------------------------------------------------------------
+--				FATOS				--
+------------------------------------------------------------------
 
 fact PlanoSimpleTemUmServico {
 	all s : Simples | one (s.servicos) 
