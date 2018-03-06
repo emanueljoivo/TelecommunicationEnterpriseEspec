@@ -4,7 +4,7 @@ module EmpresaTelecomunicacoes
 --			ASSINATURAS			--
 ----------------------------------------------------------
 
-abstract sig Plano {
+abstract one sig Plano {
 	servicos : set Servico
 }
 
@@ -14,13 +14,13 @@ sig Combo extends Plano {}
 
 abstract sig Servico {}
 
-one sig Internet extends Servico {
+sig Internet extends Servico {
 	planosDeInternet : set PlanoDeInternet	
 }
-one sig Telefone extends Servico {
+sig Telefone extends Servico {
 	planosDeTelefone : set PlanoDeTelefone
 }
-one sig TV extends Servico {
+sig TV extends Servico {
 	planosDeTV : set PlanoDeTV
 }
 
@@ -28,28 +28,36 @@ abstract sig PlanoDeInternet {}
 abstract sig PlanoDeTelefone {}
 abstract sig PlanoDeTV {}
 
-one sig CincoMB extends PlanoDeInternet {}
-one sig TrintaECincoMB extends PlanoDeInternet {}
-one sig SessentaMB extends PlanoDeInternet {}
-one sig CentoEVinteMB extends PlanoDeInternet {}
+sig CincoMB extends PlanoDeInternet {}
+sig TrintaECincoMB extends PlanoDeInternet {}
+sig SessentaMB extends PlanoDeInternet {}
+sig CentoEVinteMB extends PlanoDeInternet {}
 
-one sig IlimitadoLocal extends PlanoDeTelefone {}
-one sig IlimitadoBrasil extends PlanoDeTelefone {}
-one sig IlimitadoMundo extends PlanoDeTelefone {}
+sig IlimitadoLocal extends PlanoDeTelefone {}
+sig IlimitadoBrasil extends PlanoDeTelefone {}
+sig IlimitadoMundo extends PlanoDeTelefone {}
 
-one sig Noticias extends PlanoDeTV {}
-one sig Infantis extends PlanoDeTV {}
-one sig Filmes extends PlanoDeTV {}
-one sig Documentarios extends PlanoDeTV {}
-one sig Series extends PlanoDeTV {}
-one sig ProgramaDeTV extends PlanoDeTV {}
+sig Noticias extends PlanoDeTV {}
+sig Infantis extends PlanoDeTV {}
+sig Filmes extends PlanoDeTV {}
+sig Documentarios extends PlanoDeTV {}
+sig Series extends PlanoDeTV {}
+sig ProgramaDeTV extends PlanoDeTV {}
 
 ------------------------------------------------------------------
 --				FATOS				--
 ------------------------------------------------------------------
 
+fact ServicoFazParteDePlano {
+	all i : PlanoDeInternet | some i.~planosDeInternet 
+	all t : PlanoDeTelefone | some t.~planosDeTelefone 
+	all v : PlanoDeTV | some v.~planosDeTV
+
+	all s: Servico| one s.~servicos
+}
+
 fact PlanoSimpleTemUmServico {
-	all s : Simples | one (s.servicos) 
+	all s : Simples | one (s.servicos)
 }
 
 fact PlanoDoubleTemDoisServicos {
@@ -62,16 +70,25 @@ fact PlanoComboTemTodosServicos {
 
 fact ApenasUmPlanoDeInternet {
 	all i : Internet | one (i.planosDeInternet)
+	#Internet < 2
 }
 
 fact ApenasUmPlanoDeTelefone {
 	all t : Telefone | one (t.planosDeTelefone)
+	#Telefone < 2
 }
 
 fact AlgunsPlanosDeTV {
 	all t : TV | some (t.planosDeTV)
-}
+	#TV < 2
+	#Noticias < 2
+	#Infantis < 2
+	#Filmes < 2
+	#Documentarios < 2
+	#Series < 2
+	#ProgramaDeTV < 2
 
+}
 
 pred show[] {}
 
