@@ -4,7 +4,7 @@ module EmpresaTelecomunicacoes
 --			ASSINATURAS			--
 ----------------------------------------------------------
 
-abstract one sig Plano {
+abstract sig Plano {
 	servicos : set Servico
 }
 
@@ -53,7 +53,7 @@ fact ServicoFazParteDePlano {
 	all t : PlanoDeTelefone | some t.~planosDeTelefone 
 	all v : PlanoDeTV | some v.~planosDeTV
 
-	all s: Servico| one s.~servicos
+	all s: Servico| some s.~servicos
 }
 
 fact PlanoSimpleTemUmServico {
