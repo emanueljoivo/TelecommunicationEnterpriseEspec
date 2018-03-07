@@ -3,6 +3,9 @@ module EmpresaTelecomunicacoes
 ----------------------------------------------------------
 --			ASSINATURAS			--
 ----------------------------------------------------------
+abstract sig Cliente {
+	planos : set Plano
+}
 
 abstract sig Plano {
 	servicos : set Servico
@@ -47,13 +50,20 @@ sig ProgramaDeTV extends PlanoDeTV {}
 ------------------------------------------------------------------
 --				FATOS				--
 ------------------------------------------------------------------
+fact ClienteTemApenasUmPlano {
+	all c : Cliente | UmPlano[c]
+}
+
+fact PlanoFazParteDeCliente {
+	all p : Plano | some p.~planos
+}
 
 fact ServicoFazParteDePlano {
 	all i : PlanoDeInternet | some i.~planosDeInternet 
 	all t : PlanoDeTelefone | some t.~planosDeTelefone 
 	all v : PlanoDeTV | some v.~planosDeTV
 
-	all s: Servico| some s.~servicos
+	all s: Servico| some  s.~servicos
 }
 
 fact PlanoSimpleTemUmServico {
@@ -94,6 +104,9 @@ fact TemAlgunsPlanosDeTVPorVez {
 ----------------------------------------------------------
 --			PREDICADOS			--
 ----------------------------------------------------------
+pred UmPlano [c: Cliente] {
+	#(c.planos) = 1
+}
 
 pred PlanoSimples [s: Simples] {
 	#(s.servicos) = 1
