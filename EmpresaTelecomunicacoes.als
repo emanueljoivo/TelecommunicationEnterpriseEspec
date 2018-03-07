@@ -57,29 +57,30 @@ fact ServicoFazParteDePlano {
 }
 
 fact PlanoSimpleTemUmServico {
-	all s : Simples | one (s.servicos)
+	all s : Simples | PlanoSimples[s]
 }
 
 fact PlanoDoubleTemDoisServicos {
-	all d : Double | #(d.servicos) = 2
+	all d : Double | PlanoDouble[d]
 }
 
 fact PlanoComboTemTodosServicos {
- 	all c : Combo | #(c.servicos) = 3
+ 	all c : Combo | PlanoCombo[c]
 }
 
-fact ApenasUmPlanoDeInternet {
-	all i : Internet | one (i.planosDeInternet)
-	#Internet < 2
+fact TemApenasUmPlanoDeInternetPorVez {
+	all i : Internet | UmPlanoDeInternet[i]
+	#Internet < 2 
+
 }
 
-fact ApenasUmPlanoDeTelefone {
-	all t : Telefone | one (t.planosDeTelefone)
+fact TemApenasUmPlanoDeTelefonePorVez {
+	all t : Telefone | UmPlanoDeTelefone[t]
 	#Telefone < 2
 }
 
-fact AlgunsPlanosDeTV {
-	all t : TV | some (t.planosDeTV)
+fact TemAlgunsPlanosDeTVPorVez {
+	all tv : TV | AlgunsPlanoDeTV[tv]
 	#TV < 2
 	#Noticias < 2
 	#Infantis < 2
@@ -90,6 +91,34 @@ fact AlgunsPlanosDeTV {
 
 }
 
+----------------------------------------------------------
+--			PREDICADOS			--
+----------------------------------------------------------
+
+pred PlanoSimples [s: Simples] {
+	#(s.servicos) = 1
+}
+
+pred PlanoDouble [d: Double] {
+	#(d.servicos) = 2
+}
+
+pred PlanoCombo [c: Combo] {
+	#(c.servicos) = 3
+}
+
+pred UmPlanoDeInternet [i:Internet] {
+	#(i.planosDeInternet) = 1
+}
+
+pred UmPlanoDeTelefone [t:Telefone] {
+	#(t.planosDeTelefone) = 1
+}
+
+pred AlgunsPlanoDeTV [tv: TV] {
+	#(tv.planosDeTV) > 1
+}
+
 pred show[] {}
 
-run show for 3
+run show for 10
