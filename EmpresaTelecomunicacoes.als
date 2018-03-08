@@ -47,7 +47,7 @@ sig Series extends PlanoDeTV {}
 sig ProgramaDeTV extends PlanoDeTV {}
 
 ------------------------------------------------------------------
---				FATOS				--
+--					FATOS				--
 ------------------------------------------------------------------
 fact ServicoFazParteDePlano {
 	all i : PlanoDeInternet | one i.~planosDeInternet 
@@ -104,7 +104,6 @@ fact TemAlgunsPlanosDeTVPorVez {
 --			PREDICADOS			--
 ----------------------------------------------------------
 
-
 pred MaximoUmServico [p: Plano] {
 	#(p.servicosDeTV) < 2
 	#(p.servicosDeTelefone) < 2
@@ -152,7 +151,7 @@ fun getServicosCombo[c:Combo]: set Servico{
 }
 
 ------------------------------------------------------------------
---			ASSERTS 	--
+--				ASSERTS			 	--
 ------------------------------------------------------------------
 
 assert testPlanoSemServico { 
@@ -171,18 +170,84 @@ assert testPlanoComboSemServico {
 	all c : Combo | MaximoUmServico[c]
 }
 
+assert testServicoFazParteDePlano {
+	all i : PlanoDeInternet | one i.~planosDeInternet 
+	all t : PlanoDeTelefone | one t.~planosDeTelefone 
+	all v : PlanoDeTV | one v.~planosDeTV
+
+	all tv: TV | some  tv.~servicosDeTV
+	all tf: Telefone | some tf.~servicosDeTelefone
+	all nt: Internet | some nt.~servicosDeInternet
+}
+
+assert testPlanoSimpleTemUmServico {
+	all s : Simples | PlanoSimples[s]
+}
+
+assert testPlanoDoubleTemDoisServicos {
+	all d : Double | PlanoDouble[d]
+}
+
+assert testPlanoComboTemTodosServicos {
+ 	all c : Combo | PlanoCombo[c]
+}
+
+assert testTemApenasUmPlanoDeInternetPorVez {
+	all i : Internet | UmPlanoDeInternet[i]
+	#CincoMB < 2
+	#TrintaECincoMB < 2
+	#SessentaMB < 2
+	#CentoEVinteMB < 2
+}
+
+assert testTemApenasUmPlanoDeTelefonePorVez {
+	all t : Telefone | UmPlanoDeTelefone[t]
+	#IlimitadoLocal < 2
+	#IlimitadoBrasil < 2
+	#IlimitadoMundo < 2
+}
+
+assert testTemAlgunsPlanosDeTVPorVez {
+	all tv : TV | AlgunsPlanoDeTV[tv]
+	#Noticias < 2
+	#Infantis < 2
+	#Filmes < 2
+	#Documentarios < 2
+	#Series < 2
+	#ProgramaDeTV < 2
+}
+
+
 ------------------------------------------------------------------
---		CHECKS 	--
+--						RUN			 	--
 ------------------------------------------------------------------
-
-check testPlanoSemServico
-
-check testPlanoSimplesSemServico
-
-check testPlanoDoubleSemServico
-
-check testPlanoComboSemServico
 
 pred show[] {}
 
 run show for 15
+
+------------------------------------------------------------------
+--				CHECKS			 	--
+------------------------------------------------------------------
+
+check testPlanoSemServico for 15
+
+check testPlanoSimplesSemServico for 15
+
+check testPlanoDoubleSemServico for 15
+
+check testPlanoComboSemServico for 15
+
+check testServicoFazParteDePlano for 15
+
+check testPlanoSimpleTemUmServico for 15
+
+check testPlanoDoubleTemDoisServicos for 15
+
+check testPlanoComboTemTodosServicos for 15
+
+check testTemApenasUmPlanoDeInternetPorVez for 15
+
+check testTemApenasUmPlanoDeTelefonePorVez for 15
+
+check testTemAlgunsPlanosDeTVPorVez for 15
