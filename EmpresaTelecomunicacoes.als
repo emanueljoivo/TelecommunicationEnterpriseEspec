@@ -8,7 +8,9 @@ abstract sig Cliente {
 }
 
 abstract sig Plano {
-	servicos : set Servico
+	servicosDeTV : set TV,
+	servicosDeTelefone : set Telefone,
+	servicosDeInternet : set Internet
 }
 
 sig Simples extends Plano {}
@@ -64,7 +66,9 @@ fact ServicoFazParteDePlano {
 	all t : PlanoDeTelefone | some t.~planosDeTelefone 
 	all v : PlanoDeTV | some v.~planosDeTV
 
-	all s: Servico| some  s.~servicos
+	all tv: TV | some  tv.~servicosDeTV
+	all tf: Telefone | some tf.~servicosDeTelefone
+	all nt: Internet | some nt.~servicosDeInternet
 }
 
 fact PlanoSimpleTemUmServico {
@@ -79,7 +83,9 @@ fact PlanoComboTemTodosServicos {
  	all c : Combo | PlanoCombo[c]
 }
 
-
+fact TodoPlanoTemNoMaximoUmTipoDeServico{
+	all p: Plano | MaximoUmServico[p] 
+}
 fact TemApenasUmPlanoDeInternetPorVez {
 	all i : Internet | UmPlanoDeInternet[i]
 	#CincoMB < 2
@@ -112,16 +118,21 @@ pred UmPlano [c: Cliente] {
 	#(c.planos) = 1
 }
 
+pred MaximoUmServico [p: Plano] {
+	#(p.servicosDeTV) < 2
+	#(p.servicosDeTelefone) < 2
+	#(p.servicosDeInternet) < 2	
+}
 pred PlanoSimples [s: Simples] {
-	#getPlanoSimples[s] = 1
+	#getServicosSimples[s] = 1
 }
 
 pred PlanoDouble [d: Double] {
-	#getPlanoDouble[d] = 2
+	#getServicosDouble[d] = 2
 }
 
 pred PlanoCombo [c: Combo] {
-	#getPlanoCombo[c] = 3
+	#getServicosCombo[c] = 3
 }
 
 pred UmPlanoDeInternet [i:Internet] {
@@ -137,19 +148,19 @@ pred AlgunsPlanoDeTV [tv: TV] {
 }
 
 ------------------------------------------------------------------
---				FATOS				--
+--				FUNCOES				--
 ------------------------------------------------------------------
 
-fun getPlanoSimples[s:Simples]: set Servico{
-	s.servicos
+fun getServicosSimples[s:Simples]: set Servico{
+	s.servicosDeTV + s.servicosDeTelefone + s.servicosDeInternet
 }
 
-fun getPlanoDouble[d:Double]: set Servico{
-	d.servicos
+fun getServicosDouble[d:Double]: set Servico{
+	d.servicosDeTV + d.servicosDeTelefone + d.servicosDeInternet
 }
 
-fun getPlanoCombo[c:Combo]: set Servico{
-	c.servicos
+fun getServicosCombo[c:Combo]: set Servico{
+	c.servicosDeTV + c.servicosDeTelefone + c.servicosDeInternet
 }
 
 
