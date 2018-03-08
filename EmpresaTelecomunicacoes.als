@@ -47,7 +47,7 @@ sig Series extends PlanoDeTV {}
 sig ProgramaDeTV extends PlanoDeTV {}
 
 ------------------------------------------------------------------
---					FATOS				--
+--				FATOS				--
 ------------------------------------------------------------------
 fact ServicoFazParteDePlano {
 	all i : PlanoDeInternet | one i.~planosDeInternet 
@@ -131,7 +131,7 @@ pred UmPlanoDeTelefone [t:Telefone] {
 }
 
 pred AlgunsPlanoDeTV [tv: TV] {
-	#(tv.planosDeTV) > 1
+	#(tv.planosDeTV) > 0
 }
 
 ------------------------------------------------------------------
@@ -200,6 +200,13 @@ assert testTemApenasUmPlanoDeInternetPorVez {
 	#CentoEVinteMB < 2
 }
 
+assert testRepetePlanos {
+	#Internet < 5
+	#Telefone < 4
+	#TV < 6
+
+}
+
 assert testTemApenasUmPlanoDeTelefonePorVez {
 	all t : Telefone | UmPlanoDeTelefone[t]
 	#IlimitadoLocal < 2
@@ -217,18 +224,19 @@ assert testTemAlgunsPlanosDeTVPorVez {
 	#ProgramaDeTV < 2
 }
 
-
 ------------------------------------------------------------------
---						RUN			 	--
+--				   RUN			 	--
 ------------------------------------------------------------------
 
 pred show[] {}
-
 run show for 15
+
 
 ------------------------------------------------------------------
 --				CHECKS			 	--
 ------------------------------------------------------------------
+
+check testRepetePlanos for 15
 
 check testPlanoSemServico for 15
 
