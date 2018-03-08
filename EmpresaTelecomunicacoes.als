@@ -3,9 +3,6 @@ module EmpresaTelecomunicacoes
 ----------------------------------------------------------
 --			ASSINATURAS			--
 ----------------------------------------------------------
-abstract sig Cliente {
-	planos : set Plano
-}
 
 abstract sig Plano {
 	servicosDeTV : set TV,
@@ -13,7 +10,7 @@ abstract sig Plano {
 	servicosDeInternet : set Internet
 }
 
-sig Simples extends Plano {}
+sig  Simples extends Plano {}
 sig Double extends Plano {}
 sig Combo extends Plano {}
 
@@ -53,18 +50,13 @@ sig ProgramaDeTV extends PlanoDeTV {}
 --				FATOS				--
 ------------------------------------------------------------------
 
-fact ClienteTemApenasUmPlano {
-	all c : Cliente | UmPlano[c]
-}
 
-fact PlanoFazParteDeCliente {
-	all p : Plano | some p.~planos
-}
+
 
 fact ServicoFazParteDePlano {
-	all i : PlanoDeInternet | some i.~planosDeInternet 
-	all t : PlanoDeTelefone | some t.~planosDeTelefone 
-	all v : PlanoDeTV | some v.~planosDeTV
+	all i : PlanoDeInternet | one i.~planosDeInternet 
+	all t : PlanoDeTelefone | one t.~planosDeTelefone 
+	all v : PlanoDeTV | one v.~planosDeTV
 
 	all tv: TV | some  tv.~servicosDeTV
 	all tf: Telefone | some tf.~servicosDeTelefone
@@ -115,9 +107,7 @@ fact TemAlgunsPlanosDeTVPorVez {
 ----------------------------------------------------------
 --			PREDICADOS			--
 ----------------------------------------------------------
-pred UmPlano [c: Cliente] {
-	#(c.planos) = 1
-}
+
 
 pred MaximoUmServico [p: Plano] {
 	#(p.servicosDeTV) < 2
@@ -165,7 +155,10 @@ fun getServicosCombo[c:Combo]: set Servico{
 	c.servicosDeTV + c.servicosDeTelefone + c.servicosDeInternet
 }
 
+------------------------------------------------------------------
+--			ASSERTS E CHECKS			--
+------------------------------------------------------------------
 
 pred show[] {}
 
-run show for 10
+run show for 15
