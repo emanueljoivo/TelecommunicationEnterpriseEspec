@@ -49,10 +49,6 @@ sig ProgramaDeTV extends PlanoDeTV {}
 ------------------------------------------------------------------
 --				FATOS				--
 ------------------------------------------------------------------
-
-
-
-
 fact ServicoFazParteDePlano {
 	all i : PlanoDeInternet | one i.~planosDeInternet 
 	all t : PlanoDeTelefone | one t.~planosDeTelefone 
@@ -156,8 +152,36 @@ fun getServicosCombo[c:Combo]: set Servico{
 }
 
 ------------------------------------------------------------------
---			ASSERTS E CHECKS			--
+--			ASSERTS 	--
 ------------------------------------------------------------------
+
+assert testPlanoSemServico { 
+	all p:Plano | (MaximoUmServico[p])
+}
+
+assert testPlanoSimplesSemServico {
+	all s : Simples | MaximoUmServico[s]	
+}
+
+assert testPlanoDoubleSemServico {
+	all d : Double | MaximoUmServico[d]
+}
+
+assert testPlanoComboSemServico {
+	all c : Combo | MaximoUmServico[c]
+}
+
+------------------------------------------------------------------
+--		CHECKS 	--
+------------------------------------------------------------------
+
+check testPlanoSemServico
+
+check testPlanoSimplesSemServico
+
+check testPlanoDoubleSemServico
+
+check testPlanoComboSemServico
 
 pred show[] {}
 
