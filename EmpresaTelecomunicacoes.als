@@ -86,6 +86,7 @@ fact PlanoComboTemTodosServicos {
 fact TodoPlanoTemNoMaximoUmTipoDeServico{
 	all p: Plano | MaximoUmServico[p] 
 }
+
 fact TemApenasUmPlanoDeInternetPorVez {
 	all i : Internet | UmPlanoDeInternet[i]
 	#CincoMB < 2
@@ -123,6 +124,7 @@ pred MaximoUmServico [p: Plano] {
 	#(p.servicosDeTelefone) < 2
 	#(p.servicosDeInternet) < 2	
 }
+
 pred PlanoSimples [s: Simples] {
 	#getServicosSimples[s] = 1
 }
