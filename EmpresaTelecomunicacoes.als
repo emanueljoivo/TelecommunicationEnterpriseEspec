@@ -50,6 +50,7 @@ sig ProgramaDeTV extends PlanoDeTV {}
 ------------------------------------------------------------------
 --				FATOS				--
 ------------------------------------------------------------------
+
 fact ClienteTemApenasUmPlano {
 	all c : Cliente | UmPlano[c]
 }
@@ -79,14 +80,12 @@ fact PlanoComboTemTodosServicos {
 }
 
 
-
 fact TemApenasUmPlanoDeInternetPorVez {
 	all i : Internet | UmPlanoDeInternet[i]
 	#CincoMB < 2
 	#TrintaECincoMB < 2
 	#SessentaMB < 2
 	#CentoEVinteMB < 2
-
 }
 
 fact TemApenasUmPlanoDeTelefonePorVez {
@@ -104,7 +103,6 @@ fact TemAlgunsPlanosDeTVPorVez {
 	#Documentarios < 2
 	#Series < 2
 	#ProgramaDeTV < 2
-
 }
 
 ----------------------------------------------------------
@@ -115,15 +113,15 @@ pred UmPlano [c: Cliente] {
 }
 
 pred PlanoSimples [s: Simples] {
-	#(s.servicos) = 1
+	#getPlanoSimples[s] = 1
 }
 
 pred PlanoDouble [d: Double] {
-	#(d.servicos) = 2
+	#getPlanoDouble[d] = 2
 }
 
 pred PlanoCombo [c: Combo] {
-	#(c.servicos) = 3
+	#getPlanoCombo[c] = 3
 }
 
 pred UmPlanoDeInternet [i:Internet] {
@@ -137,6 +135,23 @@ pred UmPlanoDeTelefone [t:Telefone] {
 pred AlgunsPlanoDeTV [tv: TV] {
 	#(tv.planosDeTV) > 1
 }
+
+------------------------------------------------------------------
+--				FATOS				--
+------------------------------------------------------------------
+
+fun getPlanoSimples[s:Simples]: set Servico{
+	s.servicos
+}
+
+fun getPlanoDouble[d:Double]: set Servico{
+	d.servicos
+}
+
+fun getPlanoCombo[c:Combo]: set Servico{
+	c.servicos
+}
+
 
 pred show[] {}
 
