@@ -78,20 +78,26 @@ fact PlanoComboTemTodosServicos {
  	all c : Combo | PlanoCombo[c]
 }
 
+
+
 fact TemApenasUmPlanoDeInternetPorVez {
 	all i : Internet | UmPlanoDeInternet[i]
-	#Internet < 2 
+	#CincoMB < 2
+	#TrintaECincoMB < 2
+	#SessentaMB < 2
+	#CentoEVinteMB < 2
 
 }
 
 fact TemApenasUmPlanoDeTelefonePorVez {
 	all t : Telefone | UmPlanoDeTelefone[t]
-	#Telefone < 2
+	#IlimitadoLocal < 2
+	#IlimitadoBrasil < 2
+	#IlimitadoMundo < 2
 }
 
 fact TemAlgunsPlanosDeTVPorVez {
 	all tv : TV | AlgunsPlanoDeTV[tv]
-	#TV < 2
 	#Noticias < 2
 	#Infantis < 2
 	#Filmes < 2
