@@ -52,7 +52,7 @@ sig ProgramaDeTV extends PlanoDeTV {}
 fact ServicoFazParteDePlano {
 	all i : PlanoDeInternet | one i.~planosDeInternet 
 	all t : PlanoDeTelefone | one t.~planosDeTelefone 
-	all v : PlanoDeTV | one v.~planosDeTV
+	all v : PlanoDeTV | some v.~planosDeTV
 
 	all tv: TV | some  tv.~servicosDeTV
 	all tf: Telefone | some tf.~servicosDeTelefone
@@ -200,13 +200,6 @@ assert testTemApenasUmPlanoDeInternetPorVez {
 	#CentoEVinteMB < 2
 }
 
-assert testRepetePlanos {
-	#Internet < 5
-	#Telefone < 4
-	#TV < 7
-
-}
-
 assert testTemApenasUmPlanoDeTelefonePorVez {
 	all t : Telefone | UmPlanoDeTelefone[t]
 	#IlimitadoLocal < 2
@@ -234,8 +227,6 @@ run show for 15
 ------------------------------------------------------------------
 --				CHECKS			 	--
 ------------------------------------------------------------------
-
-check testRepetePlanos for 15
 
 check testPlanoSemServico for 15
 
