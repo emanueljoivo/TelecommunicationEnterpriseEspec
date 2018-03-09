@@ -203,7 +203,7 @@ assert testTemApenasUmPlanoDeInternetPorVez {
 assert testRepetePlanos {
 	#Internet < 5
 	#Telefone < 4
-	#TV < 6
+	#TV < 7
 
 }
 
@@ -230,7 +230,6 @@ assert testTemAlgunsPlanosDeTVPorVez {
 
 pred show[] {}
 run show for 15
-
 
 ------------------------------------------------------------------
 --				CHECKS			 	--
@@ -259,3 +258,4 @@ check testTemApenasUmPlanoDeInternetPorVez for 15
 check testTemApenasUmPlanoDeTelefonePorVez for 15
 
 check testTemAlgunsPlanosDeTVPorVez for 15
+
